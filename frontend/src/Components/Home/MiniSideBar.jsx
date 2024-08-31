@@ -2,9 +2,11 @@ import React from 'react'
 import { Data } from '../../Assets/SidebarData'
 import { Link } from 'react-router-dom'
 import { LogOut, Menu } from 'lucide-react'
+import { useAuthcontext } from '../../Context/AuthContext'
 
 const MiniSideBar = () => {
-    return (
+    const {authUser} = useAuthcontext();
+    return authUser && (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col items-center justify-center">
@@ -20,7 +22,7 @@ const MiniSideBar = () => {
                     <div className='h-[90vh] p-3 flex flex-col justify-between'>
                         <div className=''>
                             <h2 className='text-xl font-extrabold'>The Code <span className='text-red-500'>Master</span></h2>
-                            <h2 className='my-1 text-sm text-gray-300'>tcm@gmail.com</h2>
+                            <h2 className='my-1 text-sm text-gray-300'>{authUser.email}</h2>
                             <hr />
                         </div>
                         <div>

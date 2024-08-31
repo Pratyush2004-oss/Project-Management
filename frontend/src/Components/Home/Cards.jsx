@@ -1,6 +1,6 @@
 import React from 'react'
 import { data } from '../../Assets/cardData'
-import { Edit, Heart, Trash2Icon } from 'lucide-react'
+import { Heart, Trash2Icon } from 'lucide-react'
 
 const Cards = () => {
     return (
@@ -16,7 +16,6 @@ const Cards = () => {
                             <button className={`btn btn-xs rounded-full ${item.status === 'Incomplete' ? 'btn-warning' : 'btn-success'}`}>{item.status}</button>
                             <div className='flex items-center gap-2'>
                                 <Heart className='cursor-pointer' />
-                                <Edit className='cursor-pointer' />
                                 <Trash2Icon className='cursor-pointer' />
                             </div>
                         </div>

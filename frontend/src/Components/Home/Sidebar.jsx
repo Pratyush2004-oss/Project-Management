@@ -2,13 +2,15 @@ import React from 'react'
 import { Data } from '../../Assets/SidebarData'
 import { Link } from 'react-router-dom'
 import { LogOut } from 'lucide-react'
+import { useAuthcontext } from '../../Context/AuthContext'
 
 const Sidebar = () => {
-    return (
+    const {authUser} = useAuthcontext();
+    return authUser && (
         <>
             <div className=''>
                 <h2 className='text-xl font-extrabold'>The Code <span className='text-red-500'>Master</span></h2>
-                <h2 className='my-1 text-sm text-gray-300'>tcm@gmail.com</h2>
+                <h2 className='my-1 text-sm text-gray-300'>{authUser.email}</h2>
                 <hr />
             </div>
             <div>
