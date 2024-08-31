@@ -1,6 +1,46 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+import { TASK_API_END_POINT } from '../../assets/Apis'
+import { useNavigate } from 'react-router-dom'
 
 const InputData = ({ openDialog, setOpenDialog }) => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const [input, setInput] = useState({
+        title: '',
+        description: ''
+    })
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            const res = await axios.post(`${TASK_API_END_POINT}/post`, input, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            if (res.data.success) {
+                toast.success(res.data.message)
+                navigate('/')
+                setOpenDialog(false)
+                setInput({
+                    title: '',
+                    description: ''
+                })
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+        finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div>
@@ -9,20 +49,20 @@ const InputData = ({ openDialog, setOpenDialog }) => {
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Add Task</h3>
                     <hr />
-                    <form className='flex flex-col gap-3 my-5'>
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-3 my-5'>
                         <label className="form-control w-full">
                             <div className="label">
                                 <span className="label-text text-lg font-bold">Title</span>
                             </div>
-                            <input type="text" placeholder="Enter Title" className="input input-bordered w-full" />
+                            <input value={input.title} name='title' onChange={changeEventHandler} type="text" placeholder="Enter Title" className="input input-bordered w-full" />
                         </label>
                         <label className="form-control w-full">
                             <div className="label">
                                 <span className="label-text text-lg font-bold">Description</span>
                             </div>
-                            <textarea className="textarea textarea-bordered" placeholder="Enter Description"></textarea>                        </label>
+                            <textarea value={input.description} name='description' onChange={changeEventHandler} className="textarea textarea-bordered" placeholder="Enter Description"></textarea>                        </label>
                         <div className='flex justify-end mt-5 items-center gap-4'>
-                            <button onClick={() => setOpenDialog(false)} className="btn btn-error btn-sm rounded-full">Close</button>
+                            <button type='button' onClick={() => setOpenDialog(false)} className="btn btn-error btn-sm rounded-full">Close</button>
                             <button className="btn btn-success btn-sm rounded-full" type='submit'>Submit</button>
                         </div>
                     </form>

@@ -1,22 +1,46 @@
 import React from 'react'
-import { data } from '../../Assets/cardData'
 import { Heart, Trash2Icon } from 'lucide-react'
+import axios from 'axios'
+import { TASK_API_END_POINT } from '../../assets/Apis'
+import toast from 'react-hot-toast'
 
-const Cards = () => {
-    return (
+const Cards = ({ Tasks }) => {
+    const deleteTask = async (TaskId) => {
+        try {
+            const res = await axios.get(`${TASK_API_END_POINT}/${TaskId}/delete`, { withCredentials: true });
+            if (res.data.success) {
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }
+
+    const updateImportant = async (TaskId, status) => {
+        try {
+            const res = await axios.post(`${TASK_API_END_POINT}/${TaskId}/updateimportant`, { status }, { withCredentials: true });
+            if (res.data.success) {
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }
+
+    return Tasks && (
         <div className='h-[75vh] overflow-y-auto'>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4'>
-                {data && data.map((item, idx) => (
+                {Tasks.length > 0 && Tasks.map((item, idx) => (
                     <div key={idx} className='bg-gray-800 z-0 max-h-1/3 flex flex-col justify-between rounded-xl shadow-xl p-2'>
                         <div className='my-2'>
                             <h1 className='text-lg font-bold'>{item.title}</h1>
-                            <p className='text-sm my-2 text-gray-500'>{item.desc}</p>
+                            <p className='text-sm my-2 text-gray-500'>{item.description}</p>
                         </div>
                         <div className='flex items-center justify-between m-2'>
-                            <button className={`btn btn-xs rounded-full ${item.status === 'Incomplete' ? 'btn-warning' : 'btn-success'}`}>{item.status}</button>
+                            <button className={`btn btn-sm rounded-full font-bold ${!item.complete ? 'btn-warning' : 'btn-success'}`}>{!item.complete ? "Incomplete" : "Complete"}</button>
                             <div className='flex items-center gap-2'>
-                                <Heart className='cursor-pointer' />
-                                <Trash2Icon className='cursor-pointer' />
+                                <Heart onClick={() => updateImportant(item._id, (item.important===false ? true : false))} className={`hover:text-red-700 hover:scale-105 transition-all hover:fill-red-700 ${item.important ? 'fill-red-700 text-red-700' : ''} cursor-pointer`} />
+                                <Trash2Icon onClick={() => deleteTask(item._id)} className=' hover:text-red-400  cursor-pointer' />
                             </div>
                         </div>
                     </div>

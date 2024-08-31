@@ -57,6 +57,33 @@ export const getUserTask = async (req, res) => {
 
     }
 }
+// get all incompleted Task
+export const getUserInCompletedTask = async (req, res) => {
+    try {
+        const userId = req.id;
+        const tasks = await Task.find({ user: userId, complete: false }).populate({
+            path: 'user'
+        }).sort({ createdAt: -1 })
+        if (!tasks) {
+            return res.status(404).json({
+                message: "No task found",
+                success: false
+            })
+        }
+        return res.status(200).json({
+            tasks,
+            success: true
+        })
+
+    } catch (error) {
+        console.log('Error in getUserInCompletedTask Controller ' + error.message)
+        return res.status(500).json({
+            message: "Internal server Error",
+            success: false
+        })
+
+    }
+}
 // get all completed Task
 export const getUserCompletedTask = async (req, res) => {
     try {
@@ -76,7 +103,7 @@ export const getUserCompletedTask = async (req, res) => {
         })
 
     } catch (error) {
-        console.log('Error in getUserTasks Controller ' + error.message)
+        console.log('Error in getUserCompletedTask Controller ' + error.message)
         return res.status(500).json({
             message: "Internal server Error",
             success: false
@@ -104,7 +131,7 @@ export const getUserImportantTask = async (req, res) => {
         })
 
     } catch (error) {
-        console.log('Error in getUserTasks Controller ' + error.message)
+        console.log('Error in getUserImportantTask Controller ' + error.message)
         return res.status(500).json({
             message: "Internal server Error",
             success: false
