@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoute from './Routes/user.route.js'
+import taskRoute from './Routes/tasks.route.js'
 
 dotenv.config({});
 
@@ -23,6 +24,7 @@ const PORT = process.env.PORT || 3000;
 
 // calling apis
 app.use('/api/v1/user', userRoute)       //user api
+app.use('/api/v1/task',taskRoute)       //task api
 
 app.listen(PORT, () => {
     conn()

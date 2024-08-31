@@ -12,13 +12,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },
-    tasks: [
-        {
-            type:mongoose.Types.ObjectId,
-            ref:"Task"
-        }
-    ]
+    }
 }, { timestamps: true })
 
 export const User = mongoose.model('User', userSchema);
