@@ -10,7 +10,7 @@ const ImportantTask = () => {
     useEffect(() => {
       const FetchallImportantTask = async () => {
         try {
-          const res = await axios.get(`${TASK_API_END_POINT}/getcomplete`, { withCredentials: true })
+          const res = await axios.get(`${TASK_API_END_POINT}/getimportant`, { withCredentials: true })
           if (res.data.success) {
             setAllImportantTask(res.data.tasks)
           }
@@ -23,7 +23,7 @@ const ImportantTask = () => {
   return (
     <div>
       <div className='flex items-center justify-between p-3 sticky top-0 bg-gray-900'>
-        <h1 className='text-3xl p-2 font-serif font-bold'>Important Tasks</h1>
+        <h1 className='text-3xl p-2 font-serif border-b-2 font-bold'>Important Tasks</h1>
       </div>
       <Cards Tasks={allImportantTask} />
     </div>

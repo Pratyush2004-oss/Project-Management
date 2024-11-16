@@ -27,7 +27,7 @@ const AllTask = () => {
   return (
     <div>
       <div className='flex items-center justify-between p-3 sticky top-0 bg-gray-900'>
-        <h1 className='text-xl md:text-3xl p-2 font-serif font-bold'>All Tasks</h1>
+        <h1 className='text-xl md:text-3xl p-2 border-b-2 font-serif font-bold'>All Tasks</h1>
         <button onClick={() => setOpenDialog(true)} className='btn btn-outline  transition-all duration-300'><PlusCircle /> Add Task</button>
       </div>
       <Cards Tasks={allTask} />

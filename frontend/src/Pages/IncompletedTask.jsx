@@ -24,7 +24,7 @@ const IncompletedTask = () => {
   return (
     <div>
       <div className='flex items-center justify-between p-3 sticky top-0 bg-gray-900'>
-        <h1 className='text-3xl p-2 font-serif font-bold'>Incompleted Tasks</h1>
+        <h1 className='text-3xl p-2 font-serif border-b-2 font-bold'>Incompleted Tasks</h1>
       </div>
       <Cards Tasks={allInCompletedTask} />
     </div>

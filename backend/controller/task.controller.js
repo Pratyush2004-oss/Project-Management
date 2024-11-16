@@ -143,7 +143,7 @@ export const getUserImportantTask = async (req, res) => {
 // update task by id as Complete/incomplete
 export const updateTaskCompleted = async (req, res) => {
     try {
-        const { complete } = req.body;
+        const { status } = req.body;
         const taskId = req.params.id;
 
         // find task by taskId
@@ -155,11 +155,11 @@ export const updateTaskCompleted = async (req, res) => {
             })
         }
         // update as complete
-        task.complete = complete;
+        task.complete = status;
         await task.save();
 
         return res.status(200).json({
-            message: "Status updated Successfully",
+            message: "Complete Status updated Successfully",
             success: true
         })
     } catch (error) {
@@ -171,10 +171,10 @@ export const updateTaskCompleted = async (req, res) => {
     }
 }
 
-// update task by id as Complete/incomplete
+// update task by id as Important
 export const updateTaskImportant = async (req, res) => {
     try {
-        const { important } = req.body;
+        const { status } = req.body;
         const taskId = req.params.id;
 
         // find task by taskId
@@ -186,11 +186,11 @@ export const updateTaskImportant = async (req, res) => {
             })
         }
         // update as Important
-        task.important = important;
+        task.important = status;
         await task.save();
 
         return res.status(200).json({
-            message: "Status updated Successfully",
+            message: "Important status updated Successfully",
             success: true
         })
     } catch (error) {
